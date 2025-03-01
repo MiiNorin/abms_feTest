@@ -12,7 +12,7 @@ const Home = () => {
         <Button variant="contained" color="primary" onClick={() => navigate("/login")}>
           Đăng nhập dành cho khách
         </Button>
-        <Button variant="contained" color="secondary" onClick={() => navigate("/invoices")}>
+        <Button variant="contained" color="secondary" onClick={() => navigate("/manage_landing_page")}>
           Đăng nhập dành cho staff
         </Button>
       </Box>

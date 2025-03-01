@@ -7,6 +7,8 @@ import ResidentPage from "./pages/ResidentPage";
 import ResidentInvoiceList from "./components/ResidentInvoiceList";
 import MainPage from "./components/MainPage";
 import Profile from "./components/Profile";
+import StaffMainPage from "./pages/StaffMainPage";
+import BillManagePage from "./components/staff/BillManagePage";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/resident" element={<ResidentPage/>}/>
         <Route path="/resident/invoices" element={<ResidentInvoiceList />} />
+        <Route path="/manage_landing_page" element={<StaffMainPage/>}/>
+        <Route path="/bill_manage" element={<BillManagePage/>}/>
       </Routes>
     </Router>
   );
