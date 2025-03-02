@@ -26,13 +26,19 @@ const Sidebar = ({ open, setOpen }) => {
           button
           sx={{ "&:hover": { backgroundColor: "#f0f0f0" } }}
         >
-          <ListItemText primary="Mục chọn 3" />
+          <ListItemText primary="Đơn từ" />
         </ListItem>
         <ListItem 
           button
           sx={{ "&:hover": { backgroundColor: "#f0f0f0" } }}
         >
-          <ListItemText primary="Mục chọn 4" />
+          <ListItemText primary="Report" />
+        </ListItem>
+        <ListItem 
+          button
+          sx={{ "&:hover": { backgroundColor: "#f0f0f0" } }}
+        >
+          <ListItemText primary="Thẻ chuyên dụng" />
         </ListItem>
       </List>
     </Drawer>

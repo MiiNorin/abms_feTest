@@ -23,8 +23,7 @@ import Header from "../layout/Header";
 import { Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-
-
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -34,7 +33,8 @@ const Profile = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [imageModalOpen, setImageModalOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-
+    const [notifications, setNotifications] = useState([]);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         fullName: "",
@@ -74,6 +74,33 @@ const Profile = () => {
         }
     };
 
+    useEffect(() => {
+        fetch("http://localhost:8080/notification/view_all", {
+            method: "GET",
+            credentials: "include", // Gửi cookie cùng request
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Lỗi: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setNotifications(data);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi lấy thông báo:", error);
+            });
+    }, []);
+
+    const handleNotificationClick = (noti) => {
+        if (noti.notificationType === "1") {
+            navigate('/resident/invoices');  // Navigate to the desired path
+        }
+    };
 
     const handleUploadImage = () => {
         if (!selectedFile) return;
@@ -97,7 +124,7 @@ const Profile = () => {
                 console.error("Lỗi khi cập nhật ảnh:", err);
                 alert("Đã có lỗi xảy ra khi cập nhật ảnh!");
             });
-        
+
     };
 
 
@@ -130,6 +157,30 @@ const Profile = () => {
     }, []);
 
     const handleOpenImageModal = () => setImageModalOpen(true);
+
+    const handleDeleteNotification = (notificationId) => {
+        fetch(`http://localhost:8080/notification/delete?notificationId=${notificationId}`, {
+            method: "DELETE",
+            credentials: "include", // Đảm bảo gửi cookie cùng request
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Lỗi: ${response.status}`);
+                }
+                // Cập nhật lại danh sách thông báo sau khi xóa
+                setNotifications((prevNotifications) =>
+                    prevNotifications.filter((noti) => noti.id !== notificationId)
+                );
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa thông báo:", error);
+                alert("Đã có lỗi xảy ra khi xóa thông báo!");
+            });
+    };
+
 
     const handleUpdate = () => {
         // Chuyển đổi giá trị rỗng thành null
@@ -380,7 +431,7 @@ const Profile = () => {
                                             fullWidth
                                             // value={formData.fullName}
                                             onChange={handleChange}
-                                            // InputLabelProps={{ shrink: !!formData.fullName }}
+                                        // InputLabelProps={{ shrink: !!formData.fullName }}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
@@ -390,16 +441,53 @@ const Profile = () => {
                                             fullWidth
                                             // value={formData.fullName}
                                             onChange={handleChange}
-                                            // InputLabelProps={{ shrink: !!formData.fullName }}
+                                        // InputLabelProps={{ shrink: !!formData.fullName }}
                                         />
                                     </Grid>
-                                    
+
                                     <Grid item xs={12}>
                                         <Button variant="contained" fullWidth onClick={handleUpdate}>
                                             Cập nhật
                                         </Button>
                                     </Grid>
                                 </Grid>
+                            )}
+                            {tab === 2 && (
+                                <Box>
+                                    {notifications.length > 0 ? (
+                                        notifications.map((noti, index) => (
+                                            <Box
+                                                key={index}
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    padding: "10px",
+                                                    borderBottom: "1px solid #ddd",
+                                                    position: "relative",
+                                                    "&:hover .delete-btn": { opacity: 1 } // Hiển thị khi hover
+                                                }}
+                                            >
+                                                <Typography onClick={() => handleNotificationClick(noti)} sx={{ cursor: "pointer", flex: 1 }}>
+                                                    {noti.notificationContent}
+                                                </Typography>
+                                                <IconButton
+                                                    className="delete-btn"
+                                                    sx={{
+                                                        opacity: 0, // Ẩn mặc định
+                                                        transition: "opacity 0.3s ease-in-out",
+                                                    }}
+                                                    onClick={() => handleDeleteNotification(noti.id)} // Gọi hàm xóa khi nhấn vào nút "x"
+                                                >
+                                                    <CloseIcon fontSize="small" />
+                                                </IconButton>
+                                            </Box>
+                                        ))
+                                    ) : (
+                                        <Typography>Không có thông báo nào</Typography>
+                                    )}
+
+                                </Box>
                             )}
                         </CardContent>
                     </Card>

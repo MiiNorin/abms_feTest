@@ -9,9 +9,9 @@ const StaffMainPage = () => {
       <Typography variant="h4" fontWeight="bold">Trang Nhân Viên</Typography>
       <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
         <Button variant="contained" sx={{ width: 150, height: 60 }} onClick={() => navigate("/bill_manage")}>Quản lý tiêu thụ</Button>
-        <Button variant="contained" sx={{ width: 150, height: 60 }}>Mục 2</Button>
-        <Button variant="contained" sx={{ width: 150, height: 60 }}>Mục 3</Button>
-        <Button variant="contained" sx={{ width: 150, height: 60 }}>Mục 4</Button>
+        <Button variant="contained" sx={{ width: 150, height: 60 }}>Xác minh hợp đồng</Button>
+        <Button variant="contained" sx={{ width: 150, height: 60 }}>Quản lý user</Button>
+        <Button variant="contained" sx={{ width: 150, height: 60 }}>Service</Button> {/*Service này sẽ bao gồm gọi điện, nhắn tin, quản lý đơn từ, report*/}
       </Box>
     </Box>
   );
