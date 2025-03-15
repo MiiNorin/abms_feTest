@@ -38,12 +38,12 @@ const ResidentInvoiceList = () => {
     const fetchInvoices = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/bill/view_bill_list?month=${month}&year=${year}`, { withCredentials: true });
-
-            if (Array.isArray(response.data) && response.data.length > 0) {
-                setInvoices(response.data);
+    
+            if (response.data && Array.isArray(response.data.data) && response.data.data.length > 0) {
+                setInvoices(response.data.data); // Lấy danh sách hóa đơn từ response.data.data
             } else {
                 setInvoices([]);
-                setAlert({ open: true, message: "Không có hóa đơn nào!", severity: "warning" });
+                setAlert({ open: true, message: response.data.message || "Không có hóa đơn nào!", severity: "warning" });
             }
         } catch (error) {
             console.error("Lỗi khi lấy dữ liệu hóa đơn:", error);
@@ -51,7 +51,7 @@ const ResidentInvoiceList = () => {
             setInvoices([]);
         }
     };
-
+    
     // Xử lý thanh toán khi quét mã QR
     const processPayment = async (billId) => {
         try {

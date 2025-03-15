@@ -23,9 +23,12 @@ const BillManagePage = () => {
 
   useEffect(() => {
     axios.get("http://localhost:8080/user/user_list")
-      .then((res) => setUsers(res.data))
+      .then((res) => {
+        setUsers(res.data.data || []); // Lấy mảng users từ res.data.data
+      })
       .catch((err) => console.error("Lỗi lấy danh sách user:", err));
   }, []);
+  
 
   const handleOpen = (user) => {
     setSelectedUser(user);

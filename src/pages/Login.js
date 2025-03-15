@@ -1,25 +1,30 @@
 import { useState } from "react";
-import { login } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box, Alert } from "@mui/material";
+import axios from "axios";
 
 function Login() {
-    const [userName, setUsername] = useState("");
+    const [usernameOrEmail, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         setError(null); // Xóa lỗi trước đó
-        const result = await login(userName, password);
+        try {
+            const response = await axios.post("http://localhost:8080/api/login", {
+                usernameOrEmail,
+                password
+            }, { withCredentials: true });
 
-        if (result === "Login successful") {
-            sessionStorage.setItem("loggedInUser", userName);
-            navigate("/mainpage");
-        } else {
-            setError("Tài khoản hoặc mật khẩu không đúng!");
-            console.log({ userName, password });
-
+            if (response.data.status === 200) {
+                sessionStorage.setItem("loggedInUser", JSON.stringify(response.data.data));
+                navigate("/mainpage");
+            } else {
+                setError("Tài khoản hoặc mật khẩu không đúng!");
+            }
+        } catch (error) {
+            setError("Lỗi hệ thống hoặc thông tin đăng nhập sai!");
         }
     };
 
@@ -32,10 +37,10 @@ function Login() {
 
                 <TextField 
                     fullWidth
-                    label="Tên đăng nhập" 
+                    label="Tên đăng nhập hoặc Email" 
                     variant="outlined" 
                     margin="normal" 
-                    value={userName} 
+                    value={usernameOrEmail} 
                     onChange={(e) => setUsername(e.target.value)} 
                 />
 
