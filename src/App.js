@@ -9,6 +9,10 @@ import MainPage from "./components/MainPage";
 import Profile from "./components/Profile";
 import StaffMainPage from "./pages/StaffMainPage";
 import BillManagePage from "./components/staff/BillManagePage";
+import Register from "./pages/Register";
+import Verify from "./pages/Verify";
+import VerifyNewResident from "./components/VerifyNewResident";
+import VerifyUserIntoResident from "./components/VerifyUserIntoResident";
 
 function App() {
   return (
@@ -19,7 +23,11 @@ function App() {
         <Route path="/invoices" element={<InvoiceList />} />
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/resident" element={<ResidentPage/>}/>
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/send_new_resident_info" element={<VerifyNewResident />} />
+        <Route path="/verify_resident" element={<VerifyUserIntoResident />} />
         <Route path="/resident/invoices" element={<ResidentInvoiceList />} />
         <Route path="/manage_landing_page" element={<StaffMainPage/>}/>
         <Route path="/bill_manage" element={<BillManagePage/>}/>

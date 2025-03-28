@@ -10,7 +10,8 @@ const StaffMainPage = () => {
       <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
         <Button variant="contained" sx={{ width: 150, height: 60 }} onClick={() => navigate("/bill_manage")}>Quản lý tiêu thụ</Button>
         <Button variant="contained" sx={{ width: 150, height: 60 }}>Xác minh hợp đồng</Button>
-        <Button variant="contained" sx={{ width: 150, height: 60 }}>Quản lý user</Button>
+        <Button variant="contained" sx={{ width: 150, height: 60 }} onClick={() => navigate("/send_new_resident_info")}>Quản lý user</Button>
+        <Button variant="contained" sx={{ width: 150, height: 60 }} onClick={() => navigate("/verify_resident")}>Duyệt user thành resident</Button>
         <Button variant="contained" sx={{ width: 150, height: 60 }}>Service</Button> {/*Service này sẽ bao gồm gọi điện, nhắn tin, quản lý đơn từ, report*/}
       </Box>
     </Box>
